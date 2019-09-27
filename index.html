@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS Link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Pangolin&display=swap" rel="stylesheet">
+    <!-- Custom CSS Link -->
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <!-- Media Queries -->
+    <link rel="stylesheet" href="assets/styles/media-queries.css">
+    <title>Friends</title>
+</head>
+<body>
+
+    <div class="background-img">
+        <nav class="navbar navbar-light bg-light">
+            <h6 id="time-header">Time Remaining: <span id='time-text'></span></h6>
+        </nav>
+        <header id="game">
+            <div id='start-view'>
+                <h1>Friends</h1>
+                <button class="btn" id="start-button">
+                        Let's Go!
+                </button>
+                <button class="btn" id="high-score-button" onclick=renderHighScores()>View High Scores</button>
+            </div>
+        </header>
+
+        <main class='container-fluid'>
+            <section id="questions"></section>
+            <section id="scores"></section>
+            <section id="quiz-review"></section>
+        </main>
+
+    </div>
+
+    <footer class="bg-light fixed-bottom"></footer>
+    <!-- Bootstrap JS Links -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Custom JS Link -->
+
+    <!-- <script src="assets/js/questions.js"></script> -->
+    <script src="assets/js/questions/showQuestions.js"></script>
+    <script src="assets/js/helperFunctions.js"></script>
+    <script src="assets/js/logic.js"></script>
+</body>
+
+</html>
