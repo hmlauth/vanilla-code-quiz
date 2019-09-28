@@ -1,5 +1,6 @@
 
 // GLOBAL REFERENCES
+const navBar = document.querySelector('nav');
 const header = document.querySelector('h1');
 const highScoresBtn = document.getElementById('view-high-scores');
 const quizDisplay = document.getElementById('questions');
@@ -23,16 +24,15 @@ let wrong = 0;
 
 
 // FUNCTIONS
-function createHighScoreDisplay(input) {
-    let highScores = document.getElementById('high-scores');
-    if (typeof input === 'string') {
+function createHighScoreDisplay(input, element) {
+    if (typeof input === 'string') { // if no highscores
         highScores.innerText = input
-    } else {
-        for (var key in input) {
+    } else { // else if highscores saved
+        for (var key in input) { // for each highscore
             let p = document.createElement('P');
             p.setAttribute("class", "highscore");
             p.textContent = `${key}: ${input[key]}`;
-            highScores.appendChild(p);
+            element.appendChild(p);      
         }
     }
 };
@@ -45,7 +45,10 @@ function displayFinalScore() {
         <h1 class="display-4" id="final-score">
             Final Score
             <div></div>
-            <img src="assets/images/coffee-clip-art.jpeg" alt="coffee cup" id="restart-button" style="height: 50px; transform: rotate(15deg)">
+            <img 
+                src="assets/images/coffee-clip-art.jpeg" alt="coffee cup" 
+                id="restart-button" 
+                style="height: 50px; box-shadow: none; transform: rotate(15deg);"> 
             <span style="font-size: 16pt; font-family: 'Courier New', Courier, monospace">
                 Restart
             </span>
@@ -113,7 +116,8 @@ function endGame() {
     // build score display and show
     scoreDisplay.innerHTML = displayFinalScore();
     let currentHighScores = getHighScores();
-    createHighScoreDisplay(currentHighScores);
+    let highScores = document.getElementById('high-scores');
+    createHighScoreDisplay(currentHighScores, highScores);
     show(scoreDisplay);
     // prep answer details and display
     prepareAnswerDetails();
@@ -132,9 +136,7 @@ function markCorrectOrIncorrect(clicked) {
     clicked = parseInt(clicked);
     selectedAnswers.push(clicked);
     let correctChoice = showQuestions[currentQuestion].correctAnswer;
-    console.log(clicked, correctChoice);
     clicked === correctChoice ? correct++ : wrong++;
-    console.log(correct, wrong);
 };
 function markUnanswered() {
     clearInterval(questionInterval);
@@ -145,8 +147,7 @@ function markUnanswered() {
     currentQuestion < showQuestions.length ? displayQuestion() : endGame();
 };
 function prepareAnswerDetails() {
-    let revealInfo = document.getElementById('reveal-info');
-    
+    let revealInfo = document.getElementById('reveal-info'); 
     let olContainer = document.createElement('OL');
 
     showQuestions.forEach((question, i) => {
@@ -201,6 +202,7 @@ function restartGame() {
 
     // clear timer
     clearInterval(restartBtnTimer);
+
 };
 function saveHighScore(initials) {
     highScores = JSON.parse(localStorage.getItem('highScores'));
@@ -229,7 +231,7 @@ function toggleAnswersDetails() {
 
     if (revealInfo.style.display === 'none') {
         revealInfoLink.textContent = "Hide Answer Details";
-        revealInfo.style.display = 'block';
+        revealInfo.style = "display: block; background-color: #7db9f963; box-shadow: 0 4px 15px -5px rgb(150, 150, 150) inset; height: 30em; overflow: scroll; border-radius: 10%; padding: 1.2em; font-weight: 200;"
     } else if (revealInfo.style.display === 'block') {
         revealInfoLink.textContent = "Show Answer Details";
         revealInfo.style.display = 'none';
@@ -239,17 +241,33 @@ function toggleRestartButton() {
     restartBtnTimer = setInterval(function() { 
         let restartBtn = document.getElementById('restart-button');
         let transform = restartBtn.style.transform;
-        if (transform === "rotate(15deg)") {
+        if (transform ===  "rotate(15deg)") {
             restartBtn.style.transform = "rotate(-15deg)";
+            restartBtn.style.boxShadow = '0 5px 20px -6px gray';
         } else if (transform === "rotate(-15deg)") {
             restartBtn.style.transform = "rotate(15deg)";
+            restartBtn.style.boxShadow = "none";
         }
     }, 1000);
-}
+};
+function toggleHighScores() {
 
+}
 // METHODS
 document.addEventListener('DOMContentLoaded', (event) => {
     hide(timeHeader); // hide timer on page load
+
+    navBar.addEventListener('click', (event) => {
+        event.preventDefault();
+        let clicked = event.target;
+        console.log(clicked);
+        if (clicked.matches("#high-scores-link")) {
+            event.preventDefault();
+            let highScores = getHighScores();
+            console.log(highScores);
+            
+        };
+    });
 
     scoreDisplay.addEventListener('click', (event) => {
         event.preventDefault();
@@ -285,7 +303,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         let clicked = event.target;
         if (clicked.matches('.answer')) {
             clicked = clicked.getAttribute('data-answer');
-            console.log('CLICKED', clicked);
             markCorrectOrIncorrect(clicked);
             clearInterval(questionInterval);
             currentQuestion++;
